@@ -45,8 +45,8 @@ namespace ATMBussinessLogicLayer
                     return 90 - ((s + 25) % 90);
                 if (s >= 97 && s <= 122)
                     return 122 - ((s + 25) % 122);
-                if (s >= 0 && s <= 9)
-                    return 9 - ((s + 9) % 9);
+                if (s >= 48 && s <= 57)
+                    return 57 - ((s + 9) % 57);
                 else
                     return s;
             }
