@@ -7,9 +7,9 @@ namespace ATM_Software
     { 
         static void Main(string[] args)
         {
-            Console.WriteLine("~~~~~~~~~~~~~~~~ Welcome To ATM! ~~~~~~~~~~~~~~~~~~~~~~~ ");
             ATMView view = new ATMView();
-            view.InputLoginCredentials();
+            view.DisplayMenu();
         }
     }
 }
+
