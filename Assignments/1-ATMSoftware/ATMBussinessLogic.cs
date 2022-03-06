@@ -61,6 +61,7 @@ namespace ATMBussinessLogicLayer
         public bool loginCredentialValidation(ATMUser user_)
         {
             ATMDataLayer dl = new ATMDataLayer();
+            encryptyUser(user_);
             List<ATMUser> list = dl.ReadUser();
             foreach(ATMUser user in list)
             {
