@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ATMBussinessObjects;
 using ATMDataAccessLayer;
@@ -7,21 +7,17 @@ namespace ATMBussinessLogicLayer
 {
     public class ATMBussinessLogic
     {
-        public void NewUserValidation(ATMUser user)
+        public static bool NewUserValidation(ATMUser user)
         {
             if(UserInputValidation(user))
             {
                 ATMDataLayer dl = new ATMDataLayer();
                 encryptyUser(user);
-                if(dl.StoreNewUser(user))
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Congratulations! You registerd Successfully!");
-                    Console.ResetColor();
-                }
+                return dl.StoreNewUser(user);
             }
+            return false;
         }
-        private bool UserInputValidation(ATMUser user)
+        private static bool UserInputValidation(ATMUser user)
         {
             if (user.UserName.Length > 0 && user.PinCode.Length > 2)
                 return true;
@@ -37,7 +33,7 @@ namespace ATMBussinessLogicLayer
             Console.ResetColor();
             return false;
         }
-        private void encryptyUser(ATMUser user)
+        private static void encryptyUser(ATMUser user)
         {
             int convert(char s)
             {
@@ -58,11 +54,10 @@ namespace ATMBussinessLogicLayer
             user.UserName = username;
             user.PinCode = pinCode;
         }
-        public bool loginCredentialValidation(ATMUser user_)
+        public static Tuple<bool,ATMUser> loginCredentialValidation(ATMUser user_)
         {
-            ATMDataLayer dl = new ATMDataLayer();
             encryptyUser(user_);
-            List<ATMUser> list = dl.ReadUser();
+            List<ATMUser> list = ATMDataLayer.ReadUser();
             foreach(ATMUser user in list)
             {
                 if (user.UserName == user_.UserName && user.PinCode == user_.PinCode)
@@ -70,13 +65,13 @@ namespace ATMBussinessLogicLayer
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Login Successful!");
                     Console.ResetColor();
-                    return true;
+                    return new Tuple<bool,ATMUser>(true,user);
                 }
             }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Invalid Credentials!");
             Console.ResetColor();
-            return false;
+            return new Tuple<bool, ATMUser>(false, null);
         }
     }
 }
