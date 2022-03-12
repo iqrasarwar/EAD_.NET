@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using ATMDataAccessLayer;
 using ATMBussinessObjects;
 using ATMBussinessLogicLayer;
@@ -6,41 +6,56 @@ namespace ATMPresentationLayer
 {
     public class ATMView
     {
-        public void InputNewUser()
+        public static void InputNewUser(int status=1)
         {
             ATMUser user = new ATMUser();
-            ATMBussinessLogic bl = new ATMBussinessLogic();
             Console.Write("Enter User Name ");
             string name = Console.ReadLine();
             Console.Write("Enter Pin Code ");
             string pinCode = Console.ReadLine();
             user.UserName = name;
             user.PinCode = pinCode;
-            bl.NewUserValidation(user);
+            user.isAdmin = status;
+            if (ATMBussinessLogic.NewUserValidation(user))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Congratulations! You registerd Successfully!");
+                Console.ResetColor();
+            }
         }
-        public void InputLoginCredentials()
+        public ATMUser InputLoginCredentials()
         {
             ATMUser user = new ATMUser();
-            ATMBussinessLogic bl = new ATMBussinessLogic();
             Console.Write("Enter User Name ");
             string name = Console.ReadLine();
             Console.Write("Enter Pin Code ");
             string pinCode = Console.ReadLine();
             user.UserName = name;
             user.PinCode = pinCode;
-            bl.loginCredentialValidation(user);
+            return user;
         }
         public void DisplayMenu()
         {
-            Console.BackgroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Red;
+
             Console.WriteLine("\t\t~~~~~~~~~~~~~~~~ Welcome To ATM Software! ~~~~~~~~~~~~~~~~~~~~~~~ ");
             Console.ResetColor();
             Console.WriteLine("Press 1 to Login");
             Console.WriteLine("Press 2 to Register");
             string choice = Console.ReadLine();
             if (choice == "1")
-                InputLoginCredentials();
+            {
+                ATMUser user = InputLoginCredentials();
+                Tuple<bool, ATMUser> t = ATMBussinessLogic.loginCredentialValidation(user);
+                if (t.Item1 == true)
+                {
+                    if (t.Item2.isAdmin == 1)
+                        AdminView.displayAdminMenu();
+                    else
+                        CustomerView.displayCustomerMenu(user);
+                }
+            }
             else if (choice == "2")
                 InputNewUser();
             else
