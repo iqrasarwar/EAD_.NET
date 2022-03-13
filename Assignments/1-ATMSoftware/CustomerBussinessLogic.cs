@@ -15,6 +15,30 @@ namespace ATMBussinessLogicLayer
             deposit.ToAccount = -1;
             return ATMDataLayer.depositTransaction(c, deposit);
         }
+        public static bool transferAmount(Customer c,Customer receipt,Transaction transfer)
+        {
+            transfer.AccountNum = c.AccountNum;
+            transfer.Date = DateTime.Now.ToString("dd/MM/yyyy");
+            transfer.TransactionType = "transfer";
+            receipt.Balance+=transfer.Amount;
+            c.Balance-=transfer.Amount;
+            return ATMDataLayer.transferTransaction(c,receipt, transfer);
+        }
+        public static bool WithdrawAmount(Customer c,Transaction widthDraw)
+        {
+            widthDraw.AccountNum = c.AccountNum;
+            widthDraw.ToAccount = -1;
+            widthDraw.Date = DateTime.Now.ToString("dd/MM/yyyy");
+            widthDraw.TransactionType = "widthDraw";
+            if(c.Balance >= widthDraw.Amount)
+            c.Balance-=widthDraw.Amount;
+            else
+            {
+                Console.WriteLine("Not Enough Credit!");
+                return false;
+            }
+            return ATMDataLayer.widthDrawTransaction(c,widthDraw);
+        }
         public static ATMUser getUser(ATMUser user)
         {
             List<ATMUser> list = ATMDataLayer.ReadUser();
@@ -33,6 +57,18 @@ namespace ATMBussinessLogicLayer
             foreach(Customer c in list)
             {
                 if(c.userID == user.id)
+                {
+                    return c;
+                }
+            }
+            return null;
+        }
+        public static Customer getCustomerByAccountNum(int accNum)
+        {
+            List<Customer> list = ATMDataLayer.ReadCustomers();
+            foreach(Customer c in list)
+            {
+                if(c.AccountNum == accNum)
                 {
                     return c;
                 }

@@ -7,31 +7,10 @@ namespace ATMBussinessLogicLayer
 {
     public class ATMBussinessLogic
     {
-        public static bool NewUserValidation(ATMUser user)
+        public static bool AdminRegistration(ATMUser user)
         {
-            if(UserInputValidation(user))
-            {
-                ATMDataLayer dl = new ATMDataLayer();
-                encryptyUser(user);
-                return dl.StoreNewUser(user);
-            }
-            return false;
-        }
-        private static bool UserInputValidation(ATMUser user)
-        {
-            if (user.UserName.Length > 0 && user.PinCode.Length > 2)
-                return true;
-            Console.ForegroundColor = ConsoleColor.Red;
-            if (user.PinCode.Length <= 2 && user.PinCode.Length != 0)
-                Console.WriteLine("PinCode must be at least 3 character long!"); 
-            if (user.UserName == "" && user.PinCode == "")
-                Console.WriteLine("UserName and PinCode Can't be empty!");
-            else if (user.UserName == "")
-                Console.WriteLine("UserName can't be empty!");
-            else
-                Console.WriteLine("PinCode Can't be empty!");
-            Console.ResetColor();
-            return false;
+            encryptyUser(user);
+            return ATMDataLayer.StoreNewUser(user);
         }
         private static void encryptyUser(ATMUser user)
         {
@@ -54,24 +33,24 @@ namespace ATMBussinessLogicLayer
             user.UserName = username;
             user.PinCode = pinCode;
         }
-        public static Tuple<bool,ATMUser> loginCredentialValidation(ATMUser user_)
+        public static Tuple<int,Customer> loginCredentialValidation(ATMUser user_)
         {
             encryptyUser(user_);
-            List<ATMUser> list = ATMDataLayer.ReadUser();
-            foreach(ATMUser user in list)
+            List<Customer> list = ATMDataLayer.ReadAccounts();
+            foreach(Customer user in list)
             {
-                if (user.UserName == user_.UserName && user.PinCode == user_.PinCode)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Login Successful!");
-                    Console.ResetColor();
-                    return new Tuple<bool,ATMUser>(true,user);
-                }
+                if (user.UserName == user_.UserName && user.PinCode != user_.PinCode)
+                    return new Tuple<int,Customer>(0,user);
+                else if (user.UserName == user_.UserName && user.Status == 0)
+                return new Tuple<int,Customer>(2,user);
+                else if (user.UserName == user_.UserName && user.PinCode == user_.PinCode)
+                    return new Tuple<int,Customer>(1,user);
             }
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Invalid Credentials!");
-            Console.ResetColor();
-            return new Tuple<bool, ATMUser>(false, null);
+            return new Tuple<int, Customer>(-1, null);
+        }
+        public static bool disableUser(Customer c)
+        {
+            return ATMDataLayer.disableAccount(c);
         }
     }
 }

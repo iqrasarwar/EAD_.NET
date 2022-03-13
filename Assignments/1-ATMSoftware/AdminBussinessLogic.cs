@@ -57,12 +57,20 @@ namespace ATMBussinessLogicLayer
                 {query += " Status = @status AND ";
                 fetch =true;}
             query+= fetch? " 1 = 1":" 1 = 0";
-                Console.WriteLine(query);
-            return ATMDataLayer.searchCustomers(query,c);
+            Query q = new();
+            q.QueryStr = query;
+            return ATMDataLayer.searchCustomers(q,c);
         }
-        public static List<Customer> ExecuteReportQuery(int min,int max)
+        public static List<Customer> BalanceBasedReport(Query q)
         {
-            return ATMDataLayer.BalanceBasedReport(min,max);
+            q.QueryStr = "select * from [customer] where Balance >= @p1 and Balance <= @p2";
+            return ATMDataLayer.GenerateBalanceReport(q);
+        }
+        public static List<Transaction> DateBasedReport(Query q)
+        {
+            q.QueryStr = "select * from [TransactionHistory]";
+            // where DateTime.TryParse(t.Date) >= DateTime.TryParse(@p1) and  DateTime.TryParse(t.Date) <= DateTime.TryParse(@p2);";
+            return ATMDataLayer.GenerateTransactionReport(q);
         }
         public static void validateAccountInfo(Customer c)
         {
@@ -87,7 +95,7 @@ namespace ATMBussinessLogicLayer
                 validInfo = false;
             if (validInfo)
             {
-                if (ATMBussinessLogic.NewUserValidation(user))
+                if (ATMBussinessLogic.AdminRegistration(user))
                 {
                     c.UserName = user.UserName;
                     c.PinCode = user.PinCode;
@@ -101,7 +109,7 @@ namespace ATMBussinessLogicLayer
         }
         public static Customer validateAccountNum(int accountNum)
         {
-            List<Customer> list = ATMDataLayer.ReadCustomers();
+            List<Customer> list = ATMDataLayer.ReadAccounts();
             foreach (Customer u in list)
             {
                 if (u.AccountNum == accountNum)
@@ -111,5 +119,6 @@ namespace ATMBussinessLogicLayer
             }
             return null;
         }
+
     }
 }
