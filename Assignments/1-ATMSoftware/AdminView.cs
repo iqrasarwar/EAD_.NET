@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace ATMPresentationLayer
 {
-    class AdminView
+    public class AdminView
     {
-        public static Customer InuptNewAccountInfo()
+        public static Customer inputUserInfo()
         {
             Customer c = new();
             Console.Write("Enter Login Name ");
@@ -26,7 +26,24 @@ namespace ATMPresentationLayer
                 c.Balance = number;
             else
                 c.Balance = -1;
+                return c;
+        }
+        public static Customer InuptNewAccountInfo()
+        {
+            Customer c = inputUserInfo();
             c.Status = 1;
+            return c;
+        }
+        public static Customer inputUpdateInfo()
+        {
+            Customer c = inputUserInfo();
+            Console.Write("Enter Account Status(1/0 for active/disabled) ");
+            string input =  Console.ReadLine();
+            int id;
+            if (int.TryParse(input, out id))
+                c.Status = id;
+            else
+                c.Status = -1;
             return c;
         }
         public static Customer InuptSearchCriteria()
@@ -99,7 +116,7 @@ namespace ATMPresentationLayer
                     {
                         printCustomer(c);
                         Console.WriteLine("Enter fileds you wnat to update");
-                        Customer updated = InuptNewAccountInfo();
+                        Customer updated = inputUpdateInfo();
                         AdminBussinessLogic.UpdateAccount(c,updated);
                     }
                     else
@@ -125,10 +142,32 @@ namespace ATMPresentationLayer
                     int minAmount = Convert.ToInt32(Console.ReadLine());
                     Console.WriteLine("Enter Maximum Amount");
                     int maxAmount = Convert.ToInt32(Console.ReadLine());
-                    List<Customer> list =  AdminBussinessLogic.ExecuteReportQuery(minAmount,maxAmount);
+                    Query q = new Query();
+                    q.IntA=minAmount;
+                    q.IntB=maxAmount;
+                    List<Customer> list =  AdminBussinessLogic.BalanceBasedReport(q);
                     foreach(Customer cus in list)
                     printCustomer(cus);
 
+                }
+                else if(reportType == "2")
+                {
+                    Console.WriteLine("Enter Starting Date: ");
+                    string startDate = Console.ReadLine();
+                    Console.WriteLine("Enter Ending Date: ");
+                    string endDate = Console.ReadLine();
+                    Query q = new();
+                    q.StrA=startDate;
+                    q.StrB=endDate;
+                    List<Transaction> list =  AdminBussinessLogic.DateBasedReport(q);
+                    foreach(Transaction t in list)
+                    {
+                        Console.WriteLine("Account # "+ t.AccountNum);
+                        Console.WriteLine("Date "+ t.Date);
+                        Console.WriteLine("Type "+ t.TransactionType);
+                        Console.WriteLine("Balance "+ t.Amount);
+                        Console.WriteLine("To Account Num "+ t.ToAccount);
+                    }
                 }
             }
             else
@@ -146,7 +185,7 @@ namespace ATMPresentationLayer
                 bool success = int.TryParse(input, out AccountNumber);
                 return new Tuple<int,bool>(AccountNumber, success);
         }
-        private static void printCustomer(Customer c)
+        public static void printCustomer(Customer c)
         {
             Console.WriteLine("Account # "+ c.AccountNum);
             Console.WriteLine("Holder's Name "+ c.HolderName);

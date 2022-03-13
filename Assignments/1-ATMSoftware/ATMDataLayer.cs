@@ -7,7 +7,7 @@ namespace ATMDataAccessLayer
 {
     public class ATMDataLayer
     {
-        public bool StoreNewUser(ATMUser user)
+        public static bool StoreNewUser(ATMUser user)
         {
             SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             string query = @"INSERT INTO [User] (UserName,PinCode,isAdmin) Values(@username, @pincode, @isAdmin)";
@@ -97,6 +97,39 @@ namespace ATMDataAccessLayer
             con.Close();
             return list;
         }
+        public static List<Customer> ReadAccounts()
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            string query = @"select * from [User] LEFT JOIN [Customer] ON [Customer].userID=[User].Id";
+            con.Open();
+            SqlCommand com = new SqlCommand(query, con);
+            SqlDataReader data = com.ExecuteReader();
+            List<Customer> list = new();
+            if (data.HasRows)
+            {
+                while (data.Read())
+                {
+                    Customer user = new();
+                    user.id = (int)data[0];
+                    user.UserName = (string)data[1];
+                    user.PinCode = (string)data[2];
+                    user.isAdmin = (bool) data[3] ? 1:0;
+                    if(user.isAdmin == 0)
+                    {
+                        user.AccountNum = (int)data[4];
+                        user.HolderName = (string)data[5];
+                        user.Type = (string)data[6];
+                        user.Balance = (int)data[7];
+                        user.Status = (bool)data[8] ? 1:0;
+                    }
+                    else
+                        user.Status=-1;
+                    list.Add(user);
+                }
+            }
+            con.Close();
+            return list;
+        }
         public static bool deleteNewCustomerAccount(Customer c)
         {
             SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
@@ -131,12 +164,12 @@ namespace ATMDataAccessLayer
                 return true;
             return false;
         }
-        public static List<Customer> searchCustomers(string query,Customer c)
+        public static List<Customer> searchCustomers(Query query,Customer c)
         {
             SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             con.Open();
             List<Customer> list = new();
-            SqlCommand com = new SqlCommand(query, con);
+            SqlCommand com = new SqlCommand(query.QueryStr, con);
             com.Parameters.Add(new SqlParameter("@uid", c.userID));
             com.Parameters.Add(new SqlParameter("@holder", c.HolderName));
             com.Parameters.Add(new SqlParameter("@type", c.Type));
@@ -161,15 +194,14 @@ namespace ATMDataAccessLayer
             con.Close();
             return list;
         }
-        public static List<Customer> BalanceBasedReport(int min,int max)
+        public static List<Customer> GenerateBalanceReport(Query q)
         {
             SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             con.Open();
             List<Customer> list = new();
-            string query = "select * from [customer] where Balance >= @Minbalance and Balance <= @Maxbalance";
-            SqlCommand com = new SqlCommand(query, con);
-            com.Parameters.Add(new SqlParameter("@Minbalance", min));
-            com.Parameters.Add(new SqlParameter("@Maxbalance", max));
+            SqlCommand com = new SqlCommand(q.QueryStr, con);
+            com.Parameters.Add(new SqlParameter("@p1",q.IntA));
+            com.Parameters.Add(new SqlParameter("@p2",q.IntB));
             SqlDataReader data = com.ExecuteReader();
             if(data.HasRows)
             {
@@ -188,7 +220,55 @@ namespace ATMDataAccessLayer
             con.Close();
             return list;
         }
-
+        public static List<Transaction> GenerateTransactionReport(Query q)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            con.Open();
+            List<Transaction> list = new();
+            SqlCommand com = new SqlCommand(q.QueryStr, con);
+            com.Parameters.Add(new SqlParameter("@p1",q.StrA));
+            com.Parameters.Add(new SqlParameter("@p2",q.StrB));
+            SqlDataReader data = com.ExecuteReader();
+            if(data.HasRows)
+            {
+                while (data.Read())
+                {
+                    Transaction t = new Transaction();
+                    t.Id = (int)data[0];
+                    t.AccountNum = (int)data[1];
+                    t.TransactionType = (string)data[2];
+                    t.ToAccount = (int)data[3];
+                    t.Amount = (int)data[4];
+                    t.Date = (string)data[5];
+                    DateTime dt = DateTime.Parse(t.Date);
+                    DateTime start = DateTime.Parse(q.StrA);
+                    DateTime end = DateTime.Parse(q.StrB);
+                    if(dt>=start && dt<=end)
+                    list.Add(t);
+                }
+            }
+            con.Close();
+            return list;
+        }
+        public static bool transferTransaction(Customer c,Customer receipt,Transaction deposit)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            string query = @"INSERT INTO [TransactionHistory] (AccountNum, TransactionType, [To], Amount, Date) Values(@accNum,@Type,@toAcc,@amount,@date); update [Customer] set Balance = @reduceBalance where AccountNum = @accNum; update [Customer] set Balance = @increseBalance where AccountNum = @toAcc";
+            con.Open();
+            SqlCommand com = new SqlCommand(query, con);
+            com.Parameters.Add(new SqlParameter("@reduceBalance", c.Balance));
+            com.Parameters.Add(new SqlParameter("@increseBalance", receipt.Balance));
+            com.Parameters.Add(new SqlParameter("@accNum", deposit.AccountNum));
+            com.Parameters.Add(new SqlParameter("@Type", deposit.TransactionType));
+            com.Parameters.Add(new SqlParameter("@toAcc", deposit.ToAccount));
+            com.Parameters.Add(new SqlParameter("@amount", deposit.Amount));
+            com.Parameters.Add(new SqlParameter("@date", deposit.Date));
+            int status = com.ExecuteNonQuery();
+            con.Close();
+            if (status > 0)
+                return true;
+            return false;
+        }
         public static bool depositTransaction(Customer c,Transaction deposit)
         {
             SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
@@ -201,6 +281,38 @@ namespace ATMDataAccessLayer
             com.Parameters.Add(new SqlParameter("@toAcc", deposit.ToAccount));
             com.Parameters.Add(new SqlParameter("@amount", deposit.Amount));
             com.Parameters.Add(new SqlParameter("@date", deposit.Date));
+            int status = com.ExecuteNonQuery();
+            con.Close();
+            if (status > 0)
+                return true;
+            return false;
+        }
+        public static bool widthDrawTransaction(Customer c,Transaction widthDraw)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            string query = @"INSERT INTO [TransactionHistory] (AccountNum, TransactionType, [To], Amount, Date) Values(@accNum,@Type,@toAcc,@amount,@date); update [Customer] set Balance = @reduceBalance where AccountNum = @accNum;";
+            con.Open();
+            SqlCommand com = new SqlCommand(query, con);
+            com.Parameters.Add(new SqlParameter("@reduceBalance", c.Balance));
+            com.Parameters.Add(new SqlParameter("@accNum", widthDraw.AccountNum));
+            com.Parameters.Add(new SqlParameter("@Type", widthDraw.TransactionType));
+            com.Parameters.Add(new SqlParameter("@toAcc", widthDraw.ToAccount));
+            com.Parameters.Add(new SqlParameter("@amount", widthDraw.Amount));
+            com.Parameters.Add(new SqlParameter("@date", widthDraw.Date));
+            int status = com.ExecuteNonQuery();
+            con.Close();
+            if (status > 0)
+                return true;
+            return false;
+        }
+        public static bool disableAccount(Customer c)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=ATM;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            string query = @"UPDATE [Customer] SET status=@status where AccountNum = @accNum";
+            con.Open();
+            SqlCommand com = new SqlCommand(query, con);
+            com.Parameters.Add(new SqlParameter("@status", false));
+            com.Parameters.Add(new SqlParameter("@accNum", c.AccountNum));
             int status = com.ExecuteNonQuery();
             con.Close();
             if (status > 0)
