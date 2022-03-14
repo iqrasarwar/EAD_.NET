@@ -1,15 +1,16 @@
+﻿//BSEF19M012 - IQRA SARWAR
 using ATMPresentationLayer;
-using System;
 
 namespace ATM_Software
 {
     class Program
-    { 
-        static void Main(string[] args)
+    {
+        static void Main()
         {
-            ATMView view = new ATMView();
+            //Presentation Layer Instance
+            ATMView view = new();
+            //Displaying main menu to Login OR register as Admin
             view.DisplayMenu();
         }
     }
 }
-
