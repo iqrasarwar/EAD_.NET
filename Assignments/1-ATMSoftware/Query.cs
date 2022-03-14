@@ -1,3 +1,8 @@
+//BSEF19M012 - IQRA SARWAR
+
+/// <summary>
+/// "Query" is used to pass query and its possible parameters from bussiness logic layer to data access layer.
+/// </summary>
 namespace ATMBussinessObjects
 {
     public class Query

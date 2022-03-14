@@ -1,4 +1,7 @@
-﻿
+﻿//BSEF19M012 - IQRA SARWAR
+/// <summary>
+/// "Customer" is the Image of "Customer" table from database.
+/// </summary>
 namespace ATMBussinessObjects
 {
     public class Customer : ATMUser
@@ -8,6 +11,6 @@ namespace ATMBussinessObjects
         public int Balance { get; set; }
         public int Status { get; set; }
         public int AccountNum { get; set; }
-        public int userID { get; set; }
+        public int UserID { get; set; }
     }
 }
