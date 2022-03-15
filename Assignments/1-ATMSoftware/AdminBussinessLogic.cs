@@ -7,21 +7,20 @@ namespace ATMBussinessLogicLayer
 {
     public class AdminBussinessLogic
     {
-        public static void validateAccountDeletion(int accountNum)
+        //delete account if valid accountNumber is provided
+        public static bool VerifyDeletion(int accountNum)
         {
-            Customer c = validateAccountNum(accountNum);
+            Customer c = ValidateAccountNumber(accountNum);
             if (c != null)
             {
-                ATMDataLayer.deleteNewCustomerAccount(c);
+                ATMDataLayer.DeleteCustomer(c);
+                return true;
             }
+            return false;
         }
-        public static Customer validAccountUpdate(int accountNum)
+        //update customer with the fields user haven't left blank
+        public static bool UpdateAccount(Customer old,Customer c)
         {
-	       return validateAccountNum(accountNum);
-        }
-        public static void UpdateAccount(Customer old,Customer c)
-        {
-            Customer NewCustomer = old;
             if(c.HolderName!="")
                 old.HolderName=c.HolderName;
             if(c.Type!="")
@@ -32,13 +31,14 @@ namespace ATMBussinessLogicLayer
                 old.UserName=c.UserName;
             if (c.PinCode != "")
                 old.PinCode = c.PinCode;
-            ATMDataLayer.updateCustomerAccount(old);
+            return ATMDataLayer.UpdateCustomer(old);
         }
+        //forms a query with the parameters which are not left blank to search customers
         public static List<Customer> ExecuteSearchQuery(Customer c)
         {
             bool fetch = false;
             string query="select * from [customer] where";
-            if(c.userID>0)
+            if(c.UserID>0)
                 {query+=" UserID = @uid AND";
                 fetch =true;}
             if(c.AccountNum>0)
@@ -59,66 +59,44 @@ namespace ATMBussinessLogicLayer
             query+= fetch? " 1 = 1":" 1 = 0";
             Query q = new();
             q.QueryStr = query;
-            return ATMDataLayer.searchCustomers(q,c);
+            return ATMDataLayer.SearchCustomers(q,c);
         }
         public static List<Customer> BalanceBasedReport(Query q)
         {
-            q.QueryStr = "select * from [customer] where Balance >= @p1 and Balance <= @p2";
-            return ATMDataLayer.GenerateBalanceReport(q);
+            q.QueryStr = "select * from [customer] where Balance >= @minBalance and Balance <= @maxBalance";
+            return ATMDataLayer.BalanceBasedReport(q);
         }
         public static List<Transaction> DateBasedReport(Query q)
         {
             q.QueryStr = "select * from [TransactionHistory]";
-            // where DateTime.TryParse(t.Date) >= DateTime.TryParse(@p1) and  DateTime.TryParse(t.Date) <= DateTime.TryParse(@p2);";
-            return ATMDataLayer.GenerateTransactionReport(q);
+            return ATMDataLayer.DateBasedReport(q);
         }
-        public static void validateAccountInfo(Customer c)
+        public static bool AddCustomer(Customer c)
         {
-            ATMUser user = new();
-            bool validInfo = true;
-            user.UserName = c.UserName;
-            user.PinCode = c.PinCode;
-            user.isAdmin = 0;
-            Console.ForegroundColor = ConsoleColor.Red;
-            if (c.Balance < 0)
-                Console.WriteLine("Invalid Balance!");
-            if (!(c.Type.ToLower() == "saving" || c.Type.ToLower() == "current"))
-            {
-                Console.WriteLine("Inavlid Account type!");
-                validInfo = false;
-            }
-            if (c.HolderName.Length <= 0)
-                Console.WriteLine("HolderName Must Exist!");
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Green;
-            if (c.Balance < 0 || c.HolderName.Length <= 0)
-                validInfo = false;
-            if (validInfo)
-            {
-                if (ATMBussinessLogic.AdminRegistration(user))
-                {
-                    c.UserName = user.UserName;
-                    c.PinCode = user.PinCode;
-                    if (ATMDataLayer.addNewCustomerAccount(c))
-                        Console.WriteLine("New Account Created!");
-                }
-            }
-            else
-                ATMBussinessLogic.loginCredentialValidation(user);
-            Console.ResetColor();
+            if (ATMDataLayer.AddCustomer(c))
+                return true;
+            return false;
         }
-        public static Customer validateAccountNum(int accountNum)
+        //check if any customer with given account number exists or not
+        public static Customer ValidateAccountNumber(int accountNum)
         {
             List<Customer> list = ATMDataLayer.ReadAccounts();
             foreach (Customer u in list)
             {
                 if (u.AccountNum == accountNum)
-                {
                     return u;
-                }
             }
             return null;
         }
-
+        public static int ValidateSearchParameters(Customer c)
+        {
+            //if type is not blank and other than saving and current return -1
+            if (!(c.Type.ToLower() == "saving" || c.Type.ToLower() == "current") && c.Type.Length > 0)
+                return -1;
+            //if status is not left blank and other than 0 or 1 return 0
+            if(!(c.Status == 1 || c.Status == 0) && c.Status != Int32.MinValue)
+                return 0;
+            return 1;
+        }
     }
 }
