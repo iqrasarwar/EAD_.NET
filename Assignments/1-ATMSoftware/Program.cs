@@ -1,4 +1,5 @@
 ﻿//BSEF19M012 - IQRA SARWAR
+using System;
 using ATMPresentationLayer;
 
 namespace ATM_Software
@@ -7,10 +8,12 @@ namespace ATM_Software
     {
         static void Main()
         {
-            //Presentation Layer Instance
-            ATMView view = new();
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("`````~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Welcome To ATM Software! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`````");
+            Console.ResetColor();
             //Displaying main menu to Login OR register as Admin
-            view.DisplayMenu();
+            ATMView.DisplayMenu();
         }
     }
 }

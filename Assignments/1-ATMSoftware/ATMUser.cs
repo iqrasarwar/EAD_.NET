@@ -10,5 +10,6 @@ namespace ATMBussinessObjects
         public string PinCode { get; set; }
         public int IsAdmin { get; set; }
         public int Id { get; set; }
+        public int AdminAccountStatus { get; set; }
     }
 }
