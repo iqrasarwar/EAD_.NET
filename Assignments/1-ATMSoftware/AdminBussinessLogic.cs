@@ -8,30 +8,24 @@ namespace ATMBussinessLogicLayer
     public class AdminBussinessLogic
     {
         //delete account if valid accountNumber is provided
-        public static bool VerifyDeletion(int accountNum)
+        public static bool VerifyDeletion(Customer c)
         {
-            Customer c = ValidateAccountNumber(accountNum);
-            if (c != null)
-            {
-                ATMDataLayer.DeleteCustomer(c);
-                return true;
-            }
-            return false;
+            return ATMDataLayer.DeleteCustomer(c);
         }
         //update customer with the fields user haven't left blank
-        public static bool UpdateAccount(Customer old,Customer c)
+        public static int UpdateAccount(Customer old,Customer c)
         {
+            if (c.Status != 0 && c.Status != 1)
+                return 2;
             if(c.HolderName!="")
                 old.HolderName=c.HolderName;
-            if(c.Type!="")
-                old.Type=c.Type;
             if(c.Status > -1)
                 old.Status=c.Status;
             if(c.UserName != "")
                 old.UserName=c.UserName;
             if (c.PinCode != "")
                 old.PinCode = c.PinCode;
-            return ATMDataLayer.UpdateCustomer(old);
+            return ATMDataLayer.UpdateCustomer(old) ? 1 :0;
         }
         //forms a query with the parameters which are not left blank to search customers
         public static List<Customer> ExecuteSearchQuery(Customer c)
@@ -96,6 +90,12 @@ namespace ATMBussinessLogicLayer
             //if status is not left blank and other than 0 or 1 return 0
             if(!(c.Status == 1 || c.Status == 0) && c.Status != Int32.MinValue)
                 return 0;
+            if (c.UserID == -1)
+                return 2;
+            if (c.AccountNum == -1)
+                return 3;
+            if (c.Balance == -1)
+                return 4;
             return 1;
         }
     }
