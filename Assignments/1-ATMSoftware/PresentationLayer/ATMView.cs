@@ -1,5 +1,4 @@
 ﻿using System;
-using ATMDataAccessLayer;
 using ATMBussinessObjects;
 using ATMBussinessLogicLayer;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ namespace ATMPresentationLayer
     {
         public static void DisplayMenu()
         {
+            //LoginTries list tracks the wrong pinCode inputs for each login attempt 
             List<Tuple<string, int>> LoginTries = new();
             string choice="";
             while (choice != "3")
@@ -34,8 +34,9 @@ namespace ATMPresentationLayer
                     else if (t.Item1 == 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        LoginTries.Add(new Tuple<string,int>(user.UserName,1));
-                        int tries = CheckTriesCount(LoginTries, user.UserName);
+                        LoginTries.Add(new Tuple<string,int>(user.LoginName,1));
+                        //check if count of wrong pincode inputs exceeds 3 or not
+                        int tries = CheckTriesCount(LoginTries, user.LoginName);
                         Console.WriteLine("Wrong PinCode! You have made "+ tries + " Tries.");
                         if(tries >= 3)
                         {
@@ -71,18 +72,21 @@ namespace ATMPresentationLayer
                 }
             }
         }
-        //register a new adminand add in db if valid credentials are provided
-        public static void RegisterNewAdmin(int status = 1)
+        /// <summary>
+        /// register a new admin and add in db if valid credentials are provided
+        /// </summary>
+        /// <param name="IsAdmin">if not specified, user is admin by default</param>
+        public static void RegisterNewAdmin(int IsAdmin = 1)
         {
             ATMUser user = new();
-            Console.Write("Enter User Name ");
+            Console.Write("Enter Login Name ");
             string name = Console.ReadLine();
             Console.Write("Enter Pin Code ");
             string pinCode = Console.ReadLine();
-            user.UserName = name;
+            user.LoginName = name;
             user.PinCode = pinCode;
-            user.IsAdmin = status;
-            user.AdminAccountStatus = 1;
+            user.IsAdmin = IsAdmin;
+            user.Status = 1; //by default, account is active
             if (UserInputValidation(user))
             {
                 if (ATMBussinessLogic.AdminRegistration(user))
@@ -99,19 +103,21 @@ namespace ATMPresentationLayer
                 }
             }
         }
-        //validate username and pincode of user
+        //validate Login name and pincode of user
         public static bool UserInputValidation(ATMUser user)
         {
-            if (user.UserName.Length > 0 && user.PinCode.Length > 4)
+            if (user.LoginName.Length > 0 && user.PinCode.Length > 4 && ATMBussinessLogic.IsUniqueLoginName(user))
                 return true;
             Console.ForegroundColor = ConsoleColor.Red;
+            if (!ATMBussinessLogic.IsUniqueLoginName(user))
+                Console.WriteLine("Login Name already Taken! Try an Other.");
             if (user.PinCode.Length <= 4 && user.PinCode.Length != 0)
                 Console.WriteLine("PinCode must be at least 5 character long!");
-            else if (user.UserName == "" && user.PinCode == "")
-                Console.WriteLine("UserName and PinCode Can't be empty!");
-            else if (user.UserName == "")
-                Console.WriteLine("UserName can't be empty!");
-            else
+            else if (user.LoginName == "" && user.PinCode == "")
+                Console.WriteLine("LoginName and PinCode Can't be empty!");
+            else if (user.LoginName == "")
+                Console.WriteLine("LoginName can't be empty!");
+            else if (user.PinCode.Length == 0)
                 Console.WriteLine("PinCode Can't be empty!");
             Console.ResetColor();
             return false;
@@ -119,11 +125,11 @@ namespace ATMPresentationLayer
         public static ATMUser InputLoginCredentials()
         {
             ATMUser user = new();
-            Console.Write("Enter User Name ");
+            Console.Write("Enter Login Name ");
             string name = Console.ReadLine();
             Console.Write("Enter Pin Code ");
             string pinCode = Console.ReadLine();
-            user.UserName = name;
+            user.LoginName = name;
             user.PinCode = pinCode;
             return user;
         }

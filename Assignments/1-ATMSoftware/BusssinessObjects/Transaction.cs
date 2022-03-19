@@ -13,6 +13,8 @@ namespace ATMBussinessObjects
         public int RecipientAccount { get; set; }
         public int Amount { get; set; }
         public string Date { get; set; }
+        public int UserId { get; set; }
+        public string HolderName { get; set; }
 
     }
 }

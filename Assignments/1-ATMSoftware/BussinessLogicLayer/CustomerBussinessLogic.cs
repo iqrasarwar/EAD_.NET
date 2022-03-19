@@ -12,7 +12,7 @@ namespace ATMBussinessLogicLayer
             deposit.AccountNum = c.AccountNum;
             deposit.Date = DateTime.Now.ToString("dd/MM/yyyy");
             deposit.TransactionType = "deposit";
-            deposit.RecipientAccount = -1;
+            deposit.RecipientAccount = -1; //if recepient is not valid set -1
             c.Balance += deposit.Amount;
             return ATMDataLayer.DepositAmount(c, deposit);
         }
@@ -37,7 +37,7 @@ namespace ATMBussinessLogicLayer
             if(AmountDrawnToday + widthDraw.Amount >= 20000)
                 return AmountDrawnToday;
             widthDraw.AccountNum = c.AccountNum;
-            widthDraw.RecipientAccount = -1;
+            widthDraw.RecipientAccount = -1; //if recepient is not valid set -1
             widthDraw.Date = DateTime.Now.ToString("dd/MM/yyyy");
             widthDraw.TransactionType = "widthDraw";
             c.Balance -= widthDraw.Amount;
@@ -49,12 +49,12 @@ namespace ATMBussinessLogicLayer
         /// </summary>
         /// <param name="user">a user with username & pincode</param>
         /// <returns>user with same data and id from table</returns>
-        public static ATMUser GetUserId(ATMUser user)
+        public static ATMUser GetUserWithId(ATMUser user)
         {
             List<ATMUser> list = ATMDataLayer.ReadUsers();
             foreach(ATMUser u in list)
             {
-                if(u.UserName==user.UserName && u.PinCode == user.PinCode)
+                if(u.LoginName==user.LoginName && u.PinCode == user.PinCode)
                     return u;
             }
             return null;

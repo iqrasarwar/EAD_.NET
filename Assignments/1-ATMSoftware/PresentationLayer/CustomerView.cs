@@ -20,14 +20,14 @@ namespace ATMPresentationLayer
                 {
                     Console.Write("Press 1 for Fast Cash\nPress 2 for Normal Cash\nPlease select a mode of withdrawal:");
                     string mode = Console.ReadLine();
-                    user = CustomerBussinessLogic.GetUserId(user);
+                    user = CustomerBussinessLogic.GetUserWithId(user);
                     Customer c = CustomerBussinessLogic.GetCustomer(user);
                     if(mode=="1")
                     {
                         Console.Write("->500\n->1000\n->2000\n->5000\n->10000\n->15000\n->20000\nSelect one of the denominations of money:");
                         string input = Console.ReadLine();
                         bool status = int.TryParse(input,out int amount);
-                        if(!status || amount %500 != 0)
+                        if(!status || amount %500 != 0) //amount should be multiple of 500
                         {
                             Console.WriteLine("Invalid Amount!");
                             continue;
@@ -71,35 +71,43 @@ namespace ATMPresentationLayer
                         continue;
                     }
                     transfer.RecipientAccount = accountNumber;
-                    user = CustomerBussinessLogic.GetUserId(user);
+                    user = CustomerBussinessLogic.GetUserWithId(user);
                     Customer receipt = CustomerBussinessLogic.GetCustomerByAccountNumber(transfer.RecipientAccount);
                     Customer c = CustomerBussinessLogic.GetCustomer(user);
-                    Console.Write("You wish to deposit Rs"+amount+" in account held by "+receipt.HolderName+".\nIf this information is correct please ReEnter the account number:");
-                    input = Console.ReadLine();
-                    status = int.TryParse(input, out int accountNumber2);
-                    if (!status)
+                    if(receipt != null && c != null)
                     {
-                        Console.WriteLine("Invalid Account Number!");
-                        continue;
-                    }
-                    else if(accountNumber != accountNumber2)
-                    {
-                        Console.WriteLine("Account Numbers Mis-Matched!");
-                        continue;
-                    }
-                    if (!IsCreditEnough(c.Balance, transfer.Amount))
-                        continue;
-                    if (receipt != null && c!= null && CustomerBussinessLogic.TransferTransaction(c,receipt,transfer) )
-                    {
-                        Console.WriteLine("Cash Transfered Successfully!");
-                        Console.WriteLine("Do you want to print Recreipt (Y/N)?:");
-                        string consent = Console.ReadLine();
-                        if (consent.ToLower() == "y")
-                            PrintReceipt(c, "Cash Transfered : ", amount);
-                        else if (consent.ToLower() == "n")
-                            Console.WriteLine("Operation Cancelled!");
-                        else
-                            Console.WriteLine("Invalid Choice!");
+                        Console.Write("You wish to deposit Rs" + amount + " in account held by " + receipt.HolderName + ".\nIf this information is correct please ReEnter the account number:");
+                        input = Console.ReadLine();
+                        status = int.TryParse(input, out int accountNumber2);
+                        if (!status)
+                        {
+                            Console.WriteLine("Invalid Account Number!");
+                            continue;
+                        }
+                        else if (accountNumber != accountNumber2)
+                        {
+                            Console.WriteLine("Account Numbers Mis-Matched!");
+                            continue;
+                        }
+                        else if (c.AccountNum == receipt.AccountNum)
+                        {
+                            Console.WriteLine("Can't transfer to your own account!");
+                            continue;
+                        }
+                        if (!IsCreditEnough(c.Balance, transfer.Amount))
+                            continue;
+                        if (CustomerBussinessLogic.TransferTransaction(c, receipt, transfer))
+                        {
+                            Console.WriteLine("Cash Transfered Successfully!");
+                            Console.WriteLine("Do you want to print Recreipt (Y/N)?:");
+                            string consent = Console.ReadLine();
+                            if (consent.ToLower() == "y")
+                                PrintReceipt(c, "Cash Transfered : ", amount);
+                            else if (consent.ToLower() == "n")
+                                Console.WriteLine("Operation Cancelled!");
+                            else
+                                Console.WriteLine("Invalid Choice!");
+                        }
                     }
                     else if(receipt == null)
                         Console.WriteLine("Receipient Don't Exist!");
@@ -114,7 +122,7 @@ namespace ATMPresentationLayer
                         Console.WriteLine("Invalid Amount");
                         continue;
                     }
-                    user = CustomerBussinessLogic.GetUserId(user);
+                    user = CustomerBussinessLogic.GetUserWithId(user);
                     Customer c = CustomerBussinessLogic.GetCustomer(user);
                     Transaction deposit = new();
                     deposit.Amount = amount;
@@ -133,7 +141,7 @@ namespace ATMPresentationLayer
                 }
                 else if(choice == "4")
                 {
-                    user = CustomerBussinessLogic.GetUserId(user);
+                    user = CustomerBussinessLogic.GetUserWithId(user);
                     Customer c = CustomerBussinessLogic.GetCustomer(user);
                     PrintReceipt(c, null, 0);
                 }
@@ -197,6 +205,7 @@ namespace ATMPresentationLayer
             else
                 Console.WriteLine("Invalid Choice!");
         }
+        //print receipt of respective transaction type
         private static void PrintReceipt(Customer c,string type,int amount)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;    

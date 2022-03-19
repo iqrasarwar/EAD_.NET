@@ -6,10 +6,10 @@ namespace ATMBussinessObjects
 {
     public class ATMUser
     {
-        public string UserName { get; set; }
+        public string LoginName { get; set; }
         public string PinCode { get; set; }
         public int IsAdmin { get; set; }
         public int Id { get; set; }
-        public int AdminAccountStatus { get; set; }
+        public int Status { get; set; }
     }
 }

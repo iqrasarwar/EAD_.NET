@@ -7,16 +7,29 @@ namespace ATMBussinessLogicLayer
 {
     public class ATMBussinessLogic
     {
+        //check if login name is already occupied or not
+        public static bool IsUniqueLoginName(ATMUser user_)
+        {
+            EncryptUser(user_);
+            List<ATMUser> list = ATMDataLayer.ReadUsers();
+            foreach(ATMUser user in list)
+            {
+                if (user_.Id == user.Id)
+                    continue;
+                if (user.LoginName == user_.LoginName)
+                    return false;
+            }
+            return true;
+        }
         public static bool AdminRegistration(ATMUser user)
         {
-            EncryptUser(user);
             return ATMDataLayer.AddUser(user);
         }
         /// <summary>
         /// encrypt username and password map A to Z => Z to A and 0 to 9 => 0 to 9
         /// </summary>
         /// <param name="user">user to be encrypted</param>
-        private static void EncryptUser(ATMUser user)
+        public static void EncryptUser(ATMUser user)
         {
             int Convert(char s)
             {
@@ -30,11 +43,11 @@ namespace ATMBussinessLogicLayer
                     return s;
             }
             string username = "",pinCode = "";
-            foreach (char s in user.UserName)
+            foreach (char s in user.LoginName)
                 username += System.Convert.ToChar(Convert(s));
             foreach (char s in user.PinCode)
                 pinCode += System.Convert.ToChar(Convert(s));
-            user.UserName = username;
+            user.LoginName = username;
             user.PinCode = pinCode;
         }
         /// <summary>
@@ -49,11 +62,11 @@ namespace ATMBussinessLogicLayer
             List<Customer> list = ATMDataLayer.ReadAccounts();
             foreach(Customer user in list)
             {
-                if ((user.IsAdmin == 1 && user.AdminAccountStatus == 0) || (user.UserName == user_.UserName && user.Status == 0))
+                if (user.LoginName == user_.LoginName && user.Status == 0)
                     return new Tuple<int, Customer>(2, user); 
-                else if (user.UserName == user_.UserName && user.PinCode != user_.PinCode)
+                else if (user.LoginName == user_.LoginName && user.PinCode != user_.PinCode)
                     return new Tuple<int, Customer>(0, user);
-                else if (user.UserName == user_.UserName && user.PinCode == user_.PinCode)
+                else if (user.LoginName == user_.LoginName && user.PinCode == user_.PinCode)
                     return new Tuple<int,Customer>(1,user);
             }
             return new Tuple<int, Customer>(-1, null);
