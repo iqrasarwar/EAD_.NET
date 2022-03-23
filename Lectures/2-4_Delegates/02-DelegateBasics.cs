@@ -1,3 +1,5 @@
+
+                                              //LECTURE # 02(1 on delegates)
 using System;
 namespace EAD_WF
 {
@@ -30,12 +32,12 @@ namespace EAD_WF
         }
         static int add(int a, int b)
         {
-            Console.WriteLine(a+b); 
+            Console.WriteLine(a + b);
             return a + b;
         }
         static int sub(int a, int b)
         {
-            Console.WriteLine(a-b);
+            Console.WriteLine(a - b);
             return a - b;
         }
         static object paramObjFunction(params object[] obj)
@@ -50,7 +52,7 @@ namespace EAD_WF
             //is pointing multiple function that are returning something
             MyDelegate d1 = new MyDelegate(display);
             //can add multiple times -> invoke that time
-            d1+= display;
+            d1 += display;
             d1 += display;
             d1 += display;
             d1 += display;
@@ -68,7 +70,7 @@ namespace EAD_WF
             d2 -= display1;
             d2.Invoke();
             //delegeate.method tell the lastly addded function in delegate
-            
+
             Console.WriteLine(d2.Method);
             //retrun list of delegate presenting names of methods in it
             Console.WriteLine(d2.GetInvocationList());
@@ -79,7 +81,7 @@ namespace EAD_WF
             }
             d2 = null;
             //d2(); ERROR! Obj REf set to null
-            myDelegate2 d3= new myDelegate2(oneParamFunc);
+            myDelegate2 d3 = new myDelegate2(oneParamFunc);
             d3(2);
             myDelegate3 d4 = new myDelegate3(oneParamReturn);
             d4(3);
@@ -88,6 +90,7 @@ namespace EAD_WF
             int returned = d4(6);
             Console.WriteLine(returned); //returning the last one i.e. 6
             MathOperation op = new MathOperation(add);
+            Console.WriteLine(op.ToString());//gives type eadNet.Mathop same as Console.WriteLine(op.GetType())
             op += sub;
             Console.WriteLine("First call to delegate ::");
             Console.WriteLine(op(2, 3));
@@ -95,11 +98,13 @@ namespace EAD_WF
             op -= add;
             Console.WriteLine("Second call to delegate ::");
             Console.WriteLine(op(2, 3));
+
+            //USE OF PARARAMS IN DELEGATES
             ParamDelegate dp = new ParamDelegate(paramObjFunction);
             dp(1, "iqra", 2, "vkvf");
             Console.WriteLine(dp(1, "iqra", 2, "vkvf"));
-            //USE OF PARARAMS IN DELEGATES
 
+            Console.WriteLine(op.Target);//gives the class instance and null for static
         }
     }
 }
