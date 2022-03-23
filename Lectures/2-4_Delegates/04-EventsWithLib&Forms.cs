@@ -21,6 +21,11 @@ namespace arrList
            l.Added += () => Console.WriteLine("Add in list");
            l.Add(new object());
        }
-
    }
+}
+//windows forms
+private void button1_Click(object sender, EventArgs e)
+{
+    MessageBox.Show("Laiba is a Churail.");
+    //form f2 = new form2() ;
 }
