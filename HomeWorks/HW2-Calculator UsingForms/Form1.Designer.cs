@@ -225,8 +225,9 @@ namespace EAD_WF
             resources.ApplyResources(this.textBox, "textBox");
             this.textBox.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.textBox.Name = "textBox";
+            this.textBox.ReadOnly = true;
             this.textBox.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
-            //
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Honeydew;
