@@ -1,0 +1,78 @@
+using System;
+using System.Linq;
+namespace linqClass1
+{
+    class student
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public int Marks { get; set; }
+
+    }
+
+    class linqq
+    {
+        static void Main()
+        {
+            // STEP 1 : define data source
+            string[] cities = { "Lahore", "Islamabad", "okara","kpk" };
+            /*
+             * 2 WAYS 
+             * METHOD SYNTAX  & QUERY SYNTAX
+             */
+                /* METHOD SYNTAX */
+            // STEP 2 : define query -> no data exists here
+            var query = cities.Where(NameOfLength4); //nameoflength4 is not called here
+            //STEP 3 : query is excuted -> data comes here
+            foreach (var c in query) //conditions check function is called here
+            {
+                //Console.WriteLine(c);
+            }
+            /*
+             * You Can Use LAMBDA STATMENT here 
+             */
+            query = cities
+                .Where((string cityName) => cityName.Length > 4)
+                .Select(x=>x);   //to filter the attributes or columns we need to select
+            //receive in anonymus type 
+            foreach (var c in query) 
+            {
+               // Console.WriteLine(c);
+            }
+            /* QUERY SYNTAX */
+            query = from n in cities
+                    select n;
+            query = from n in cities
+                    where n.Length > 4
+                    select n;
+            foreach (var c in query)
+            {
+                 Console.WriteLine(c);
+            }
+            student[] arr = {new student() { Id = 1, Name ="iqra",Marks = 23}, new student() { Id = 2, Name = "iqra", Marks = 23 }, new student() { Id = 3, Name = "iqra", Marks = 23 } }
+            var q1 = (from n in arr
+                    where n.Name.Length > 4
+                 select new
+                {
+                    n.Id,
+                    n.Marks,
+                    n.Name
+                }).ToList();
+            var q = from n in arr
+                    where n.Name.Length > 4
+                    select (new Tuple<int, int, string>(n.Id, n.Marks, n.Name));
+
+        }
+
+        static bool NameOfLength4(string cityName)
+        {
+            return cityName.Length > 4;
+        }
+    }
+}
+/*
+ STEPS TO EXECUTE LINQ QUERY:
+// STEP 1 : define data source
+// STEP 2 : define query -> no data exists here
+//STEP 3 : query is excuted -> data comes here
+*/
