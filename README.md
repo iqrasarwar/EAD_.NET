@@ -1,5 +1,5 @@
 # EAD_.NET
-Enter Prise Application Development in ASP.NET C# 
+Enterprise Application Development in ASP.NET C# 
 ## Assignments
 ### 1- ATM Software
 
