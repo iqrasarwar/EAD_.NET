@@ -1,0 +1,16 @@
+# Mid exam
+### N TIER - lesco case study
+1-case study to read data from table
+2-process in bl
+3-conditionlly store in db & fs
+4-red & display on console
+
+### publisher subscriber
+extend stack class to notify on push & pop with sender info and vlue being pushed or poped
+
+
+### shorts
+1- ways to send info from controller to view & view to controller
+2- 
+3- strongly typed views & benefits
+4- linq query
