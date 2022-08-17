@@ -1,3 +1,24 @@
+ead lecture 16/05/2021
+
+Some topics of mvc
+dependency injection
+sections
+middle ware
+state managment -> sessions & cookies
+ajax request
+partial view
+
+
+Entity frame work
+change backend will use ORMmapper
+TWO ENDS OF PROJECT
+client end -> MVC
+admin end -> Blazor -> single page applications
+web services 
+restful apis -> create backend once and conknect it to multiple frontends
+They return json data.
+
+Make mobile version in MC.
 webservices in .NET  core will be connected to front end.
 
 Docker here sql server is not available you have to dockorize there.
@@ -24,3 +45,24 @@ asp.net core makes them object. that obj will pass through different middle ware
 that func can be state managment, response obj generation etc
 
 Program.cs -> object of app -> method of use.
+					*******************************************************
+Layout sections:
+header			@layout=.....
+renderbody
+footer			index.cshtml
+
+if you have to put content of the requesting page in a section in layout
+
+@section s1
+{
+<div></div>
+}
+index.cshtml
+
+put this in layout page by using RENDER SETION SECTION NaME 
+
+middle w@re youtube lec 54
+
+
+
+ 
