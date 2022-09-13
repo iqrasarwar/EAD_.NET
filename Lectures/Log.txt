@@ -45,7 +45,7 @@ Lecture # 04  DATED: 25/05/2022
 View components
 
 Lecture # 05 DATED: 30/05/2022
-ORM Mapper, EF Core
+ORM Mapper, EF Core, db first
 
 Lecture # 06 DATED: 01/06/2022
 AJAX, Jquery
