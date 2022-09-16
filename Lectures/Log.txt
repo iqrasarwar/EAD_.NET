@@ -33,13 +33,14 @@ Flow of MVC controller & view, sign up page task
 
                             ************************************ POST MID  *******************************
 Lecture # 01  DATED: 16/05/2022
-- Outline of the topics
-- Middle Wares
-- Layout Pages
-- Render Sections
+* Outline of the topics
+* Middle Wares - intro
+* Layout Pages
+* Render Sections
 
 Lecture # 02  DATED: 18/05/2022
-Middle Wares, Partial Views
+* Middle Wares -> two way flow, short circuiting, class middlwares 
+* Partial Views
 
 Lecture # 03  DATED: 23/05/2022
 Model Validation, Partial Views, tag helpers, model validation
