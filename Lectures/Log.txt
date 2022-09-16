@@ -35,7 +35,8 @@ Flow of MVC controller & view, sign up page task
 Lecture # 01  DATED: 16/05/2022
 - Outline of the topics
 - Middle Wares
-- Layout Sections
+- Layout Pages
+- Render Sections
 
 Lecture # 02  DATED: 18/05/2022
 Middle Wares, Partial Views
