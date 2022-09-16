@@ -33,7 +33,9 @@ Flow of MVC controller & view, sign up page task
 
                             ************************************ POST MID  *******************************
 Lecture # 01  DATED: 16/05/2022
-Middle Wares, Layout Sections, Entity frame work
+- Outline of the topics
+- Middle Wares
+- Layout Sections
 
 Lecture # 02  DATED: 18/05/2022
 Middle Wares, Partial Views
