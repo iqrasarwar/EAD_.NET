@@ -1,0 +1,117 @@
+public class MyMiddleWare
+{
+   RequestDelegate next;
+   public MyMiddleWare(RequestDelegate reqdeleg)
+   {
+      this.next = reqdeleg;
+   }
+
+//task is completed in future anytime
+   public async Task Invoke(HttpContext context)
+   {
+        if (context.Request.Path.Equals("/short"))
+        {
+            await context.Response.WriteAsync("this is short middleware");
+        }
+        if (context.Request.Query["somedt"].Equals("dfdf"))
+        {
+            await context.Response.WriteAsync("this is after next in 2");
+        }
+        await context.Response.WriteAsync("class middleware");
+      await next(context);
+   }
+}
+
+
+
+// 					*******************************************************
+
+// SERVICES
+
+// assume we have 3 middle wares
+// REQUEST -> | MIDDLEWRE (---NEXT----),MIDDLEWRE (---NEXT----),MIDDLEWRE (---NEXT----), MIDDLEWRE (-------)| -> RESPONSE
+// no next in l@st one middlew@re @nd then the code of the middle w@res @fter next will be executed.
+
+// there is @ two w@y flow , the code before next is executed in w@y from 1st to l@st middlew@re @nd the code @fter nex is executed in
+// w@y from l@st or termin@l middlew@re to the first one middle w@re.
+// @ll is st@rted from request to response.
+
+// on cmd
+// commands:
+// dotnet  --list-sdks   //check sdks
+// dotnet new globaljson --sdk-version 6.0.300 --output services //crete output folder
+// dotnet new web --no-https --output services --framework net6.0 //crete project
+// dotnet new sln -o services //creted
+
+// C:\Users\BUTT SYSTEMS>dotnet new globaljson --sdk-version 6.0.300 --output services
+// The template "global.json file" was created successfully.
+
+// C:\Users\BUTT SYSTEMS>dotnet new web --no-https --output services --framework net6.0
+// The template "ASP.NET Core Empty" was created successfully.
+
+// Processing post-creation actions...
+// Running 'dotnet restore' on C:\Users\BUTT SYSTEMS\services\services.csproj...
+//   Determining projects to restore...
+//   Restored C:\Users\BUTT SYSTEMS\services\services.csproj (in 264 ms).
+// Restore succeeded.
+
+
+// C:\Users\BUTT SYSTEMS>dotnet new sln -o services
+// The template "Solution File" was created successfully.
+
+// C:\Users\BUTT SYSTEMS>dotnet sln services add services
+// Project `services.csproj` added to the solution.
+// C:\Users\BUTT SYSTEMS>cd .\services
+
+// C:\Users\BUTT SYSTEMS\services>dotnet run
+
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+app.UseMiddleware<MyMiddleWare>();
+app.Use(async (context, next) =>
+{
+    context.Response.ContentType = "text/plain";
+    await context.Response.WriteAsync("this is before next in 1");
+    await next();
+    await context.Response.WriteAsync("this is after next in 1");
+});
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("this is before next in 2");
+    await next();
+    if (context.Request.Query["somedt"].Equals("dfdf"))
+    {
+        await context.Response.WriteAsync("this is after next in 2");
+    }
+    await context.Response.WriteAsync("this is after next in 2");
+});
+
+
+app.Run(async (context) =>
+{
+    await context.Response.WriteAsync("this is terminal middleware");
+});
+
+// app.MapGet("/", () => "Hello World!");
+
+// app.Run();
+
+
+// this is before next in 1
+// this is before next in 1
+// this is terminal middleware
+// this is after next in 2
+// this is after next in 1
+
+//54 55 from yt
+
+//var builder = WebApplication.CreateBuilder(args);
+//var app = builder.Build();
+//app.UseMiddleware<MyMiddleWare>();
+
+app.MapGet("/", () => "Hello World!");// this is for base address only when / is given run this one
+app.Run(async (context)=>{
+    await context.Response.WriteAsync("this is terminal middleware");
+});
+//short circuiting : terminate middleware pipeline before end of the pipeline
