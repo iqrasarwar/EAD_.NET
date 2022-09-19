@@ -52,7 +52,16 @@ Lecture # 05 DATED: 30/05/2022
 ORM Mapper, EF Core, db first
 
 Lecture # 06 DATED: 01/06/2022
-AJAX, Jquery
+AJAX GET, Jquery
+
+Lecture DATED: 15/08/2022
+Review, EF core approches, Intro to codefirst, middle approches
+
+Lecture DATED: 17/08/2022
+Implementation of Code First, Middle Approch, Repositry Pattren, File Uploading
+
+Lecture DATED:22/08/2022
+AJAX POST, Dependency Injection
 
 Lecture DATED:24/08/2022
 CodeFirst, Audit Model Basics
@@ -60,8 +69,17 @@ CodeFirst, Audit Model Basics
 Lecture DATED:29/08/2022
 StateManagment - Cookies
 
+Lecture DATED:31/08/2022
+Vivas
+
 Lecture DATED:05/09/2022
 Sessions - AutoMappers - Full Aduit Model by tracker
 
 Lecture DATED: 07/09/2022
 Relationships in Code First, Async Programming
+
+Lecture DATED:12/09/2022
+Vivas
+
+Lecture DATED:14/09/2022
+WebServices - RESTFULL APIS
