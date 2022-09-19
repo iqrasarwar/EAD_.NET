@@ -54,5 +54,14 @@ ORM Mapper, EF Core, db first
 Lecture # 06 DATED: 01/06/2022
 AJAX, Jquery
 
+Lecture DATED:24/08/2022
+CodeFirst, Audit Model Basics
+
+Lecture DATED:29/08/2022
+StateManagment - Cookies
+
+Lecture DATED:05/09/2022
+Sessions - AutoMappers - Full Aduit Model by tracker
+
 Lecture DATED: 07/09/2022
 Relationships in Code First, Async Programming
