@@ -1,0 +1,10 @@
+﻿break the large view in small views as component approch
+increase the reuseability
+
+to use
+taghelper of patrial 
+
+<partial name="name.cshtml" />
+
+
+//view partial view sections

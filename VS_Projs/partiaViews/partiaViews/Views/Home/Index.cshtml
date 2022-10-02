@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model partiaViews.ViewModels.CustomerViewModel
+<div>
+    @*@foreach(var i in @Model.customer)
+    {
+        <p>@i.Name</p>
+    }*@
+    <table>
+
+        <tbody>
+
+            <vc:summary></vc:summary>
+             <vc:tax-summary tax-rate = "123" total-amount = "100"></vc:tax-summary>
+            @*<vc:TaxSummary data="this is my data."></vc:TaxSummary>*@
+            <partial name ="Partial" model="13443" />
+             <partial name ="Partial" model="13443" />
+              <partial name ="Partial" model="13443" />
+               <partial name ="Partial" model="13443" />
+        </tbody>
+    </table>
+</div>
+@section Scripts
+{
+<p>scripts</p>
+}
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>

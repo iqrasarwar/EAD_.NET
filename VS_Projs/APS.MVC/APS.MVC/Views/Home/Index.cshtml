@@ -1,0 +1,33 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Home Page";
+}
+@*
+    TO GIVE DIFFERENT TITLE TO THE DIFFERENT PAGES
+    you cAn pAss dAtA According to different keys using viewdAtA too.
+    render section render prticulr sections 
+*@
+
+@section tryit{
+    <div>
+        mysection here
+    </div>
+}
+<table>
+    <tbody>
+        
+            <partial name="partialviews.cshtml" model= "@ViewBag.title"/>
+            <partial name="partialviews.cshtml" model= "@ViewBag.title"/>
+            <partial name="partialviews.cshtml" model= "@ViewBag.title"/>
+            <partial name="partialviews.cshtml" model= "@ViewBag.title"/>
+        
+    </tbody>
+    </table>
+<div class="text-center">
+    <p>@ViewBag.title</p>
+    @*if use of viewbg*@
+    @*<p>@Model</p>  *@
+    @*if use of model*@
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
