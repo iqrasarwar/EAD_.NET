@@ -1,0 +1,17 @@
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMBussinessLogicLayer.deps.json
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMBussinessLogicLayer.dll
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMBussinessLogicLayer.pdb
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMBussinessObjects.dll
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMDataAccessLayer.dll
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMBussinessObjects.pdb
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\bin\Debug\net5.0\ATMDataAccessLayer.pdb
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.csproj.AssemblyReference.cache
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.AssemblyInfoInputs.cache
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.AssemblyInfo.cs
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.csproj.CoreCompileInputs.cache
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.csproj.CopyComplete
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.dll
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ref\ATMBussinessLogicLayer.dll
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\ATMBussinessLogicLayer.pdb
+C:\Users\BUTT SYSTEMS\source\repos\ATMBussinessLogicLayer\obj\Debug\net5.0\refint\ATMBussinessLogicLayer.dll

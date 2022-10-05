@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "..\\ATM_Software"
+		},
+		{
+			"path": "..\\ATMBussinessObjects"
+		},
+		{
+			"path": "..\\ATMDataAccessLayer"
+		},
+		{
+			"path": "..\\ATMPresentationLayer"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}
