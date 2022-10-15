@@ -1,0 +1,85 @@
+Lecture # - DATED: 28/02/2022
+TOPICS: - MISSED
+
+Lecture # 01 DATED: 02/03/2022
+TOPICS: COURSE INTRO, N TIER ARCHITECTURE
+
+Lecture # 02 DATED: 07/03/2022
+TOPICS: DELEGATES BASICS
+
+Lecture # 03 DATED: 09/03/2022
+TOPICS: DELEGATES CONT..(External Library Scenerio)
+
+Lecture # 04 DATED: 14/03/2022
+TOPICS: DELEGATES CONT..(Event Handling) + A BIT WINDOWS FORMS
+
+Lecture # - DATED: 16/02/2022
+TOPICS: - MISSED
+
+Lecture # 05 DATED: 21/03/2022
+TOPICS: LINQ
+
+Lecture # 06 DATED: 11/04/2022
+TOPICS: USE OF QUERY SYNTAX & LAMBDA STSTMENT WITH LINQ
+
+Lecture # 07 DATED: 13/04/2022
+TOPICS: INTRODUCTION OF MVC IN ASP.NET, BASIC USE OF CONTROLLER & IIS EXPRESS.
+
+Lecture # - DATED: 18/04/2022
+MISSED
+
+Lecture # 08 DATED: 20/04/2022
+Flow of MVC controller & view, sign up page task
+
+                            ************************************ POST MID  *******************************
+Lecture # 01  DATED: 16/05/2022
+* Outline of the topics
+* Middle Wares - intro
+* Layout Pages
+* Render Sections
+
+Lecture # 02  DATED: 18/05/2022
+* Middle Wares -> two way flow, short circuiting, class middlwares 
+* Partial Views
+
+Lecture # 03  DATED: 23/05/2022
+Model Validation, Partial Views, tag helpers, model validation
+
+Lecture # 04  DATED: 25/05/2022
+View components
+
+Lecture # 05 DATED: 30/05/2022
+ORM Mapper, EF Core, db first
+
+Lecture # 06 DATED: 01/06/2022
+AJAX GET, Jquery
+
+Lecture # 07 DATED: 15/08/2022
+Review, EF core approches, Intro to codefirst, middle approches
+
+Lecture # 08 DATED: 17/08/2022
+Implementation of Code First, Middle Approch, Repositry Pattren, File Uploading
+
+Lecture # 09 DATED:22/08/2022
+AJAX POST, Dependency Injection
+
+Lecture # 10 DATED:24/08/2022
+CodeFirst, Audit Model Basics
+
+Lecture # 11 DATED:29/08/2022
+StateManagment - Cookies
+
+Lecture # 12 DATED:31/08/2022
+Vivas
+
+Lecture # 13 DATED:05/09/2022
+Sessions - AutoMappers - Full Aduit Model by tracker
+
+Lecture # 14 DATED: 07/09/2022
+Relationships in Code First, Async Programming
+
+Lecture # 15 DATED:12/09/2022
+Vivas
+
+Lecture # 16 DATED:14/09/2022
+WebServices - RESTFULL APIS

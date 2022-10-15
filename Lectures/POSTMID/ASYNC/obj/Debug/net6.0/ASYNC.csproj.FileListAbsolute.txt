@@ -1,0 +1,15 @@
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\bin\Debug\net6.0\ASYNC.exe
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\bin\Debug\net6.0\ASYNC.deps.json
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\bin\Debug\net6.0\ASYNC.runtimeconfig.json
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\bin\Debug\net6.0\ASYNC.dll
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\bin\Debug\net6.0\ASYNC.pdb
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.csproj.AssemblyReference.cache
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.AssemblyInfoInputs.cache
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.AssemblyInfo.cs
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.csproj.CoreCompileInputs.cache
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.dll
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\refint\ASYNC.dll
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.pdb
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ASYNC.genruntimeconfig.cache
+C:\Users\BUTT SYSTEMS\OneDrive\Desktop\FlowerStudio\YotubeClone\ASYNC\obj\Debug\net6.0\ref\ASYNC.dll

@@ -1,0 +1,100 @@
+ead lecture 16/05/2021
+
+Some topics of mvc
+dependency injection
+sections
+middle ware
+state managment -> sessions & cookies
+ajax request
+partial view
+
+
+Entity frame work
+change backend will use ORMmapper
+TWO ENDS OF PROJECT
+client end -> MVC
+admin end -> Blazor -> single page applications
+web services 
+restful apis -> create backend once and conknect it to multiple frontends
+They return json data.
+
+Make mobile version in MC.
+webservices in .NET  core will be connected to front end.
+
+Docker:: here sql server is not available you have to dockorize there.
+virtual machines
+component as microservices
+asynchrounous programming
+					*******************************************************
+Middle Ware:
+basic features in asp.net core
+diff web apps-> diff frame works -> using common basic features
+middle  ware
+pipeline
+services
+
+request from client end -> at controller in mvc -> before that to thee middle ware components of asp.net
+REQUEST-> MIDDLE WaRE COMPONENT-> 
+modify and generate response , extra func generate logs , perform authentication -> multiple
+components in middle ware.
+
+REQUEST-> MIDDLE WaRE COMPONENT, MIDDLE WaRE COMPONENT, MIDDLE WaRE COMPONENT, MIDDLE WaRE COMPONENT -> RESPONSE
+
+line of middle wares is called request pipline. request and response are objects.
+asp.net core makes them object. that obj will pass through different middle wares and respective functionalities will be carried out. 
+that func can be state managment, response obj generation etc
+
+Program.cs -> object of app -> method of use.
+
+CODE::-
+
+//  ***********************************
+// CONCEPT OF aSP.NET
+
+
+//envoirment setup
+var builder = WebApplication.CreateBuilder(args);
+//obj of web app
+var app = builder.Build();
+
+//async prog is used
+app.Use(async (context, next) =>
+{
+    //request and response both should exist here
+    //and helper to move forward in the context
+    //next is used for this purpose.
+    //we receive response and request through get.
+    context.Response.ContentType = "text/plain";
+    await context.Response.WriteAsync("pakistan\n"); // to generate response
+    await next(); // to move to next
+});
+
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("welcome to clss\n"); // to generate response
+    await next(); // to move to next
+});
+//default middle ware is here
+app.MapGet("/", () => "Hello World!");
+//"/" base url
+//return hello world
+app.Run();
+
+					*******************************************************
+Layout sections:
+header			@layout=.....
+renderbody
+footer			index.cshtml
+
+if you have to put content of the requesting page in a section in layout
+
+@section s1
+{
+<div></div>
+}
+index.cshtml
+
+put this in layout page by using RENDER SETION SECTION NaME 
+
+middle w@re youtube lec 54
